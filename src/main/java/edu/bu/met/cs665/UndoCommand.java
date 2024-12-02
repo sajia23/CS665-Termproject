@@ -23,6 +23,7 @@ public class UndoCommand extends CommonCommand{
         }
         return undoCommand;
     }
+
     public void execute(FileSystemComponent currentDirectory, FileSystemComponent file) {
         Action action = super.undoStack.pop();
         super.redoStack.push(action);

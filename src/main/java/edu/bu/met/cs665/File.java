@@ -18,8 +18,12 @@ public class File implements FileSystemComponent {
         this.sup = sup;
     }
 
-    public void displayDetails() {
-        System.out.println("File: " + name + ", Size: " + size + " KB");
+    public void displayDetails(int i) {
+        for(int j = 0; j < i; j ++) {
+            System.out.print("    ");
+        }
+        System.out.print("File: " + name + ", Size: " + size + " KB");
+        System.out.println();
     }
 
     public int getSize() {

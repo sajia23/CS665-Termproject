@@ -24,7 +24,7 @@ public class FileSystem {
     }
 
     public void displayContents() {
-        root.displayDetails();
+        root.displayDetails(0);
     }
 
     public void calculateSize() {

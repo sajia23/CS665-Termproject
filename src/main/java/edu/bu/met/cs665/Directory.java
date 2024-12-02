@@ -23,10 +23,14 @@ public class Directory implements FileSystemComponent {
         components.add(component);
     }
 
-    public void displayDetails() {
+    public void displayDetails(int i) {
+        for(int j = 0; j < i; j ++) {
+            System.out.print("    ");
+        }
         System.out.println("Directory: " + name);
         for (FileSystemComponent component : components) {
-            component.displayDetails();
+
+            component.displayDetails(i+1);
         }
     }
 
