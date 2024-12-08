@@ -2,15 +2,15 @@
 | CS-665       | Software Design & Patterns |
 |--------------|----------------------------|
 | Name         | FIRST_NAME LAST_NAME       |
-| Date         | MM/DD/YYYY                 |
-| Course       | Fall / Spring / Summer     |
-| Assignment # |                            |
+| Date         | 12/07/2024                 |
+| Course       | Fall                       |
+| Assignment # | TermProject                |
 
 # Assignment Overview
-Please add a paragraph or two overviewing the objectives of the assignment.
+The main goal of this project was to simulate a functional file system with commands that can handle operations like creating, deleting, moving, and searching files or directories. Additionally, it supports undo and redo and system initialization. I used five design patterns to implement the project.
 
 # GitHub Repository Link:
-https://github.com/{YOUR_USERNAME}/cs-665-assignment-{ASSIGNMENT_NUMBER}
+https://github.com/sajia23/CS665-Termproject
 
 # Implementation Description 
 
@@ -19,13 +19,20 @@ For each assignment, please answer the following:
 
 - Explain the level of flexibility in your implementation, including how new object types can
 be easily added or removed in the future.
+Answer:Easy to Extend: Adding new file types, commands, or operations is straightforward. For example:To add a new file type just implement a new subclass of FileSystemComponent. And also, To introduce file compression, simply add a new command.Each pattern encapsulates specific responsibilities. Command encapsulates action logic, Visitor encapsulates calculate operations,
 - Discuss the simplicity and understandability of your implementation, ensuring that it is
 easy for others to read and maintain.
+Answer:By encapsulating each command into a class, the logic becomes modular and independent. Instead of dealing with complex conditionals for parsing and executing commands, we delegate execution to the appropriate command class. For example: A MoveCommand stores the original location of the file, enabling it to undo the move operation easily.
 - Describe how you have avoided duplicated code and why it is important.
+Answer:Inheritance and Polymorphism: Files and directories share a common base class (FileSystemComponent), which eliminates duplicate code for shared behavior like getName() or getSize(). Reusable Operations: Visitor classes centralize operations like calculating size, reducing redundancy across files and directories. Encapsulated Commands: Command objects handle specific logic, ensuring each command is implemented once, regardless of how many times it’s executed
 - If applicable, mention any design patterns you have used and explain why they were
 chosen.
-
-
+Answer:
+Composite Pattern. This pattern enables the representation of a hierarchical structure, where files and directories are treated uniformly. It allows directories to contain files or other directories, creating a tree-like structure. The uniformity simplifies operations like traversing the file system since the client code doesn’t need to worry about whether an object is a file or a directory. 
+Builder Pattern. The Builder pattern was essential for initializing the file system. It allows for the incremental construction of a complex directory structure using chainable methods. For example, I can create a root directory, add multiple subdirectories, and populate them with files in a fluent, readable manner.
+Command Pattern. Moving on to Command pattern, which was  to handling user commands like creating, deleting, or moving files. Each command is encapsulated in its own class, such as CreateCommand or DeleteCommand, adhering to the single-responsibility principle.
+Visitor Pattern. The Visitor pattern was used to separate operations from the structure of the file system. Visitor classes centralize operations like calculating size, reducing redundancy across files and directories. 
+Singleton Pattern. This pattern was used for command classes. For instance, each command type, like CreateCommand or DeleteCommand, is instantiated only once and reused globally. This approach minimizes memory usage and ensures that command objects maintain consistent behavior throughout the application.
 # Maven Commands
 
 We'll use Apache Maven to compile and run this project. You'll need to install Apache Maven (https://maven.apache.org/) on your system. 
