@@ -1,5 +1,14 @@
 package edu.bu.met.cs665;
 
+/**
+ * Name: Shaohua Yue
+ * Course: CS-665 Software Designs & Patterns
+ * Date: 12/07/2024
+ * File Name: RedoCommand.java
+ * Description: This class implements the command to redo previously undone operations,
+ * using both Singleton and Command patterns.
+ */
+
 public class RedoCommand extends CommonCommand{
 
     private static volatile RedoCommand redoCommand;
@@ -23,6 +32,11 @@ public class RedoCommand extends CommonCommand{
         }
         return redoCommand;
     }
+    /**
+     * Execute the redo command
+     * @param currentDirectory The current working directory
+     * @param file The file being operated on
+     */
     public void execute(FileSystemComponent currentDirectory, FileSystemComponent file) {
         Action action = super.redoStack.pop();
         super.undoStack.push(action);

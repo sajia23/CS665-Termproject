@@ -1,3 +1,11 @@
+/**
+ * Name: Shaohua Yue
+ * Course: CS-665 Software Designs & Patterns
+ * Date: 12/07/2024
+ * File Name: FileSystem.java
+ * Description: This is the main class that implements a file system with various operations
+ * like creating, deleting, moving files and directories, and supporting undo/redo operations.
+ */
 package edu.bu.met.cs665;
 
 import java.util.List;
@@ -6,35 +14,32 @@ import java.util.Scanner;
 public class FileSystem {
     public Directory root;
 
+    /**
+     * Constructor that initializes the file system with a basic structure
+     * Creates initial directories and files using FileSystemBuilder
+     */
     public FileSystem() {
         FileSystemBuilder builder = new FileSystemBuilder();
         // Build the file system structure
         builder.addDirectory("directory1")
-                .addFile("directory1", "directory1_file_1", 500)
-                .addFile("directory1", "directory1_file_2", 1000)
+                .addFile("directory1", "directory1_file1", 500)
+                .addFile("directory1", "directory1_file2", 1000)
                 .addDirectory("directory2")
-                .addFile("directory2", "directory2_file_1", 200);
+                .addFile("directory2", "directory2_file1", 200);
 
         // Get the built file system
         Directory fileSystem = builder.build();
-
         root = fileSystem;
+
         System.out.println("File system initialization finished!");
         CDCommand.getInstance().setRoot(root);
     }
 
-    public void displayContents() {
-        root.displayDetails(0);
-    }
-
-    public void calculateSize() {
-        SizeVisitor sizeVisitor = new SizeVisitor();
-        root.accept(sizeVisitor);
-        System.out.println("Total size: " + sizeVisitor.getTotalSize() + " KB");
-    }
-
+    /**
+     * Main method that handles user input and executes file system commands
+     * @param args Command line arguments (not used)
+     */
     public static void main(String[] args) {
-
         FileSystem fs = new FileSystem();
         Scanner scanner = new Scanner(System.in);
 
@@ -42,11 +47,15 @@ public class FileSystem {
             System.out.println("Enter a command (ls, cd, mkd, mkf, undo, redo, search): ");
             String command = scanner.nextLine();
             String[] commands = command.split("\\s+");
+            
+            // Handle different commands
             if (commands[0].equals("ls")) {
-                fs.displayContents();
+                SizeVisitor treeSizeVisitor = new SizeVisitor();
+                fs.root.accept(treeSizeVisitor, 0);
             } else if (commands[0].equals("cd")){
-                if(commands[1].equals("..") && fs.root.getSup() != null) fs.root = (Directory) fs.root.getSup();
-                else {
+                if(commands[1].equals("..") && fs.root.getSup() != null) {
+                    fs.root = (Directory) fs.root.getSup();
+                } else {
                     Directory result = CDCommand.getInstance().execute(fs.root, commands[1]);
                     if(result != null) fs.root = result;
                 }
@@ -56,6 +65,8 @@ public class FileSystem {
                 RedoCommand.getInstance().execute(null, null);
             } else if (commands[0].equals("search")) {
                 List<String> results = SearchCommand.getInstance().execute(null, commands[1]);
+                System.out.print(commands[1]);
+                System.out.print(":  ");
                 for(int i = 0; i < results.size(); i ++) {
                     System.out.println(results.get(i));
                 }
@@ -71,8 +82,7 @@ public class FileSystem {
                 CreateFileCommand.getInstance().execute(fs.root, file, true);
             } else if (commands[0].equals("delf")) {
                 DeleteCommand.getInstance().execute(fs.root, commands[1], true);
-            }
-            else if (commands[0].equals("exit")){
+            } else if (commands[0].equals("exit")){
                 break;
             }
         }

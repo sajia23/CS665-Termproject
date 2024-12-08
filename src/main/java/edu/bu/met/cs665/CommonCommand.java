@@ -1,3 +1,11 @@
+/**
+ * Name: Shaohua Yue
+ * Course: CS-665 Software Designs & Patterns
+ * Date: 12/07/2024
+ * File Name: CommonCommand.java
+ * Description: This abstract class provides common functionality for all commands
+ * in the file system, implementing the Command pattern.
+ */
 package edu.bu.met.cs665;
 
 import java.util.*;
@@ -10,16 +18,19 @@ public abstract class CommonCommand {
 
     static Directory root;
 
-//    CommonCommand() {
-//        undoStack = new ArrayDeque<>();
-//        redoStack = new ArrayDeque<>();
-//        catalog = new HashMap<>();
-//    }
-
+    /**
+     * Set the root directory for the file system
+     * @param root The root directory to set
+     */
     public void setRoot(Directory root) {
         this.root = root;
     }
 
+    /**
+     * Convert a path string to a FileSystemComponent
+     * @param path The path to convert
+     * @return The corresponding FileSystemComponent or null if not found
+     */
     public FileSystemComponent pathToFileOrDirectory(String path) {
         String[] paths = path.split("/");
         Directory tempRoot = root;
@@ -37,6 +48,11 @@ public abstract class CommonCommand {
         return null;
     }
 
+    /**
+     * Convert a FileSystemComponent to its path string
+     * @param fileSystemComponent The component to convert
+     * @return The path string representation
+     */
     public String fileOrDirectoryToPath(FileSystemComponent fileSystemComponent) {
         StringBuilder sb = new StringBuilder();
         while(fileSystemComponent.getSup() != null) {
@@ -46,5 +62,11 @@ public abstract class CommonCommand {
         }
         return sb.toString();
     }
+
+    /**
+     * Generic execute method to be implemented by specific commands
+     * @param currentDirectory The current directory
+     * @param parameter The command parameter
+     */
     public <T> void execute(T currentDirectory, T parameter){}
 }

@@ -1,5 +1,14 @@
 package edu.bu.met.cs665;
 
+/**
+ * Name: Shaohua Yue
+ * Course: CS-665 Software Designs & Patterns
+ * Date: 12/07/2024
+ * File Name: UndoCommand.java
+ * Description: This class implements the command to undo previous operations,
+ * using both Singleton and Command patterns.
+ */
+
 public class UndoCommand extends CommonCommand{
 
     private static volatile UndoCommand undoCommand;
@@ -24,6 +33,11 @@ public class UndoCommand extends CommonCommand{
         return undoCommand;
     }
 
+    /**
+     * Execute the undo command
+     * @param currentDirectory The current working directory
+     * @param file The file being operated on
+     */
     public void execute(FileSystemComponent currentDirectory, FileSystemComponent file) {
         Action action = super.undoStack.pop();
         super.redoStack.push(action);
